@@ -1,7 +1,3 @@
 {
-  "extends": ["simenb-base", "simenb-node", "simenb-jest"],
-  "rules": {
-    // Not supported in node 4
-    "prefer-destructuring": "off"
-  }
+  "extends": "@chainsafe"
 }
