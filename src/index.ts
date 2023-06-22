@@ -38,7 +38,7 @@ export function gcStats(
     const { gcType, cost, beforeGC, afterGC } = stats;
 
     gcCount.labels(gcType).inc();
-    gcTimeCount.labels(gcType).inc(cost);
+    gcTimeCount.labels(gcType).inc(cost / 1e6);
 
     const diffUsedHeapSize =
       afterGC.heapStatistics.usedHeapSize -
