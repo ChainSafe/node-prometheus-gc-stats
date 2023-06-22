@@ -1,6 +1,6 @@
 {
   "name": "@chainsafe/prometheus-gc-stats",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Report Nodejs Garbage Collection stats using Prometheus",
   "type": "module",
   "exports": "./lib/index.js",
