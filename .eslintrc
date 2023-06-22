@@ -1,3 +1,6 @@
 {
-  "extends": "@chainsafe"
+  "extends": "@chainsafe",
+  "parserOptions": {
+    "project": "./tsconfig.lint.json"
+  }
 }
