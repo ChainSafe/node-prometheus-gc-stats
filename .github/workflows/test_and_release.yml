@@ -8,6 +8,11 @@ on:
     branches:
       - '**'
 
+permissions:
+  id-token: write       # Required for OIDC
+  contents: write       # Required to create a Github release
+  pull-requests: write  # Required to add tags to pull requests
+
 jobs:
   tests:
     name: tests
@@ -36,7 +41,7 @@ jobs:
     needs: tests
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
-      - uses: google-github-actions/release-please-action@v3
+      - uses: googleapis/release-please-action@v4
         id: release
         with:
           release-type: node
@@ -46,6 +51,7 @@ jobs:
       
       - uses: actions/checkout@v6
         if: ${{ steps.release.outputs.release_created }}
+
       - uses: pnpm/action-setup@v4
         if: ${{ steps.release.outputs.release_created }}
         
@@ -62,6 +68,4 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
 
       - run: pnpm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ steps.release.outputs.release_created }}
