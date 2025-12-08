@@ -18,16 +18,17 @@ jobs:
         os: [ubuntu-latest]
         node: [20]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2-beta
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{matrix.node}}
-      - run: yarn install
-      - run: yarn build
+      - run: pnpm install
+      - run: pnpm build
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
       - name: Test
-        run: yarn test
+        run: pnpm test
   
   maybe-release:
     name: release
@@ -43,22 +44,24 @@ jobs:
           bump-minor-pre-major: false
           changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"chore","section":"Miscellaneous","hidden":false}]'
       
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
+        if: ${{ steps.release.outputs.release_created }}
+      - uses: pnpm/action-setup@v4
         if: ${{ steps.release.outputs.release_created }}
         
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v6
         with:
           node-version: 20 
           registry-url: 'https://registry.npmjs.org'
         if: ${{ steps.release.outputs.release_created }}
       
-      - run: yarn install
+      - run: pnpm install
         if: ${{ steps.release.outputs.release_created }}
       
-      - run: yarn build
+      - run: pnpm build
         if: ${{ steps.release.outputs.release_created }}
 
-      - run: yarn publish
+      - run: pnpm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
         if: ${{ steps.release.outputs.release_created }}

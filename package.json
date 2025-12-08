@@ -9,6 +9,7 @@
     "lib",
     "src"
   ],
+  "packageManager": "pnpm@10.24.0",
   "scripts": {
     "build": "tsc",
     "clean": "rm -r lib",
